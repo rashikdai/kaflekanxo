@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "What is the oxidation number of iron in purssian blue?",
+answer : "+2,+3",
+options : [
+"+1,+2",
+"+1,+3",
+"+2,+3",
+"+2 only"
+]
+},
+
+
+{
+num : 2,
+question : "The oxidation number of chlorine in CaOCl2 is",
+answer : "both a and b",
+options : [
+"+1",
+"-1",
+"zero",
+"both a and b"
+]
+},
+
+
+{
+num : 3,
+question : "The oxidation state of fe in Mhr's salt is",
+answer : "2",
+options : [
+"4",
+"3",
+"2",
+"1"
+]
+},
+
+
+{
+num : 4,
+question : "oxidation no of phosphorus in H4P2O5, H4P2O6,H4P2O7 are respectively",
+answer : "3,4,5",
+options : [
+"3,4,5",
+"5,3,4",
+"5,4,3",
+"3,4,4"
+]
+},
+
+
+{
+num : 5,
+question : "Lowest oxidation of manganese is found in",
+answer : "Mn2O3",
+options : [
+"KMnO4",
+"Mn2O4",
+"Mn2O3",
+"MnO2"
+]
+},
+
+
+{
+num : 6,
+question : "The equivalent weight of oxidizing agent in the given redox rxn is. SO2 + H2S -----> S + H2O",
+answer : "16",
+options : [
+"16",
+"32",
+"48",
+"64"
+]
+},
+
+
+{
+num : 7,
+question : "The oxidation no of iodine in KI3 is",
+answer : "-1/3",
+options : [
+"-1",
+"+1",
+"-1/3",
+"+1/3"
+]
+},
+
+
+{
+num : 8,
+question : "How many moles of HNO3 act as oxidizing agnet in the rection : Zn + HNO3 ----> Zn(NO3)2 + NH4NO3 + H2O",
+answer : "10",
+options : [
+"1",
+"8",
+"9",
+"10"
+]
+},
+
+
+{
+num : 9,
+question : "The oxidation no of Mn in KMnO4 is",
+answer : "+3",
+options : [
+"+2",
+"+3",
+"-1",
+"-3"
+]
+},
+
+
+{
+num : 10,
+question : "What is the oxidation no of hydogen in ammonia?",
+answer : "+1",
+options : [
+"+1",
+"+3",
+"-1",
+"-3"
+]
+},
+
+
+{
+num : 11,
+question : "Find the oxidation no of Cu in Cu(NH3)4SO4",
+answer : "+2",
+options : [
+"+2",
+"+3",
+"-2",
+"-3"
+]
+},
+
+
+{
+num : 12,
+question : "Find the oxidation no of cr in K2Cr2O7 and K2Cr2O4?",
+answer : "+6,+6",
+options : [
+"+6,+6",
+"+6,+3",
+"+3,+3",
+"+3,+6"
+]
+},
+
+
+{
+num : 13,
+question : "Oxidation no of sulphur in Na2S4O6",
+answer : "2.5",
+options : [
+"1",
+"2.5",
+"3",
+"5"
+]
+},
+
+
+{
+num : 14,
+question : "oxidation of phosphorus in pyrophosphoric acid",
+answer : "+3",
+options : [
+"+1",
+"+3",
+"+5",
+"+7"
+]
+},
+
+
+{
+num : 15,
+question : "A reducing agent is a substances which can",
+answer : "donate electron",
+options : [
+"accept electron",
+"donate electron",
+"accept proton",
+"donate proton"
+]
+},
+
+
+{
+num : 16,
+question : "Which of the following changes take places when lead monoxide is converted into lead nitrate?",
+answer : "neither oxidation nor reduction",
+options : [
+"oxidation",
+"reduction",
+"neither oxidation nor reduction",
+"both a and b"
+]
+},
+
+
+{
+num : 17,
+question : "What is the maximum oxidation state that a nitrogen can have?",
+answer : "5",
+options : [
+"1",
+"4",
+"5",
+"6"
+]
+},
+
+
+{
+num : 18,
+question : "Which of the following is not a oxidizing agent?",
+answer : "NH3",
+options : [
+"KMnO4",
+"NH3",
+"Chlorine",
+"Conc.H2SO4"
+]
+},
+
+
+{
+num : 19,
+question : "Which of the following is not a reducing agent?",
+answer : "NaNO3",
+options : [
+"NaNO2",
+"NaNO3",
+"HI",
+"SnCl2"
+]
+},
+
+{
+num : 20,
+question : "Which of the following acid possesses oxidizing and complex forming properties?",
+answer : "HNO3",
+options : [
+"HNO3",
+"H2SO4",
+"HCl",
+"HNO2"
+]
+},
+
+
+{
+num : 21,
+question : "When H2S gas is passed through SO2 gas, sulphur is obtained.The eq. wt. of SO2 is",
+answer : "16",
+options : [
+"16",
+"32",
+"24",
+"48"
+]
+},
+
+{
+num : 22,
+question : "The conversion of lead carbonate to sulphate is",
+answer : "none",
+options : [
+"oxidation",
+"reduction",
+"both",
+"none"
+]
+},
+
+{
+num : 23,
+question : "When H2O2  react with acidified KMnO4 soln the permaganate is decolorised. Here H2O2 act as",
+answer : "reducing agent",
+options : [
+"reducing agent",
+"oxiddizing agent",
+"both",
+"none"
+]
+},
+
+{
+num : 24,
+question : "When magnesium react with excess of zinc sulphate solution.",
+answer : "zinc is thrown out of solution",
+options : [
+"the color of solution changes",
+"hydrogen is given off",
+"zinc magnesium allay is formed",
+"zinc is thrown out of solution"
+]
+},
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

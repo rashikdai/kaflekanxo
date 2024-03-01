@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "Nitrogen is",
+answer : "P-block element",
+options : [
+"S-block element",
+"P-block element",
+"d-block element",
+"f-block element"
+]
+},
+
+{
+num : 2,
+question : "Nitrogen is relatively non-reactive because",
+answer : "its dissiocation energy is large",
+options : [
+"its electronegativity is high",
+"its dissiocation energy is large",
+"its atomic radius is small",
+"it is first element of group 15"
+]
+},
+
+{
+num : 3,
+question : "Ammonium compound which on heating doesnot give NH3 is",
+answer : "NH4NO2",
+options : [
+"NH4NO2",
+"(NH4)2CO3",
+"(NH4)2SO4",
+"NH4Cl"
+]
+},
+
+{
+num : 4,
+question : "The product obtained on heating NH4NO3 is",
+answer : "N2O",
+options : [
+"N2O",
+"NO",
+"N2O5",
+"N2O3"
+]
+},
+
+{
+num : 5,
+question : "The product obtained on heating NH4NO2 is",
+answer : "N2",
+options : [
+"N2O",
+"N2",
+"NO",
+"N2O5"
+]
+},
+
+{
+num : 6,
+question : "A solution of NH4Cl and NaNO2 on boiling gives ",
+answer : "N2",
+options : [
+"NH3",
+"N2O",
+"N2",
+"NO2"
+]
+},
+
+{
+num : 7,
+question : "Nitrogen show oxidation state  from",
+answer : "-3 to +5",
+options : [
+" +1 to +5",
+"-3 to +3",
+"-3 to +5",
+"-2 to +6"
+]
+},
+
+{
+num : 8,
+question : "covalency of nirogen in nitric acid is",
+answer : "5",
+options : [
+"0",
+"3",
+"5",
+"4"
+]
+},
+
+{
+num : 9,
+question : "Ammonia when heated with CuO gives",
+answer : "N2",
+options : [
+"NO2",
+"N2O",
+"N2",
+"N2O5"
+]
+},
+
+{
+num : 10,
+question : "Nitrogen react with metal to give ",
+answer : "nitride",
+options : [
+"nitrate",
+"nitrite",
+"nitride",
+"none"
+]
+},
+
+{
+num : 11,
+question : "Ammonia is manufactured by",
+answer : "Habers process",
+options : [
+"Contact process",
+"Habers process",
+"Ostwalds process",
+"Lead acid process"
+]
+},
+
+{
+num : 12,
+question : "Catalyst use in manufacture of ammonia is",
+answer : "Fe",
+options : [
+"Fe",
+"pt",
+"Cu",
+"V2O5"
+]
+},
+
+{
+num : 13,
+question : "Maximum production of ammonia is favorable at ",
+answer : "High pressure and low temperature",
+options : [
+"High pressure and high temperature",
+"High pressure and low temperature",
+"Low pressue and low temperature",
+"Low pressure and high temperature"
+]
+},
+
+{
+num : 14,
+question : "Ammonium chloride when heated with with sodium hydroxide, product formed is ",
+answer : "NH3",
+options : [
+"N2",
+"NH4OH",
+"NH3",
+"NaNH2"
+]
+},
+
+{
+num : 15,
+question : "Ammonia can be dried by",
+answer : "None",
+options : [
+"Conc. H2SO4",
+"P2O5",
+"Anhydrous CaCl2",
+"None"
+]
+},
+
+{
+num : 16,
+question : "The ammonia is dried over",
+answer : "Quick lime",
+options : [
+"Slacked lime",
+"Quick lime",
+"Calcium chloride",
+"Phosphorous pentachloride"
+]
+},
+
+{
+num : 17,
+question : "The catalyst used in ostwalds process for the manufacture of nitric acid is ",
+answer : "Pt guaze",
+options : [
+"Finely divided iron",
+"Finely divided nickel",
+"Manganese dioxide",
+"Pt guaze"
+]
+},
+
+{
+num : 18,
+question : "When zinc react with cold and dil.nitricn acid it produces ",
+answer : "NO",
+options : [
+"NO",
+"NH4NO3",
+"NO2",
+"H2"
+]
+},
+
+{
+num : 19,
+question : "When Cu react with con.HNO3 the brown gas evolved is",
+answer : "NO2",
+options : [
+"N2O",
+"NO",
+"NO2",
+"NH3"
+]
+},
+
+{
+num : 20,
+question : "When ammonical solution is treated with CuSO4 the blue color is due to ",
+answer : "[Cu(NH3)4]SO4",
+options : [
+"[Cu(NH3)4]SO4",
+"C2H4",
+"[Cu(NH3)2]SO4",
+"C2H2"
+]
+},
+
+{
+num : 21,
+question : "Aquea-regia is a mixture of ",
+answer : "3HCl + 1HNO3",
+options : [
+"3HCl + 1HNO3",
+"1HCl + 3HNO3",
+"3HNO3 + 1H2SO4",
+"3H2SO4 + 1HNO3"
+]
+},
+
+
+{
+num : 22,
+question : "The chemical used for cooling for refrigeration is",
+answer : "NH3",
+options : [
+"CO2",
+"NH4OH",
+"NH4Cl",
+"NH3"
+]
+},
+
+
+{
+num : 23,
+question : "Catalytic oxidation of ammonia produces",
+answer : "Nitric oxide",
+options : [
+"Nitrous acid",
+" Nitric oxide",
+"Ntrogen trioxide",
+"Nitrogen pentaoxide"
+]
+},
+
+
+{
+num : 24,
+question : "Which of the following oxides of nitrogen is anhydride of HNO3?",
+answer : "N2O5",
+options : [
+"NO",
+"N2O3",
+"N2O4",
+"N2O5"
+]
+},
+{
+num : 25,
+question : "Which of the following oxides of nitrogen is anhydride of HNO2?",
+answer : "N2O3",
+options : [
+"NO",
+"N2O3",
+"N2O4",
+"N2O5"
+]
+},
+
+
+{
+num : 26,
+question : "In the brown ring test of nitrates, the brown colouration is developed due to the formation of",
+answer : "FeSO4.NO",
+options : [
+"fe(SO4)3NO",
+"FeSO4.NO",
+"FeSO4SO2",
+"FeSO4N2O2"
+]
+},
+
+
+{
+num : 27,
+question : "Ammonia react with nesselers reagent reagent to give",
+answer : "Brown precipitate",
+options : [
+"Deep blue precipitate",
+"White precipitate",
+"Green precipitate",
+"Brown precipitate"
+]
+},
+
+
+{
+num : 28,
+question : " It is recommened that ammonia botteles be opened after cooloing in ice for some time. This is because",
+answer : "It has high vapour pressure",
+options : [
+"It bring tears to eyes",
+"It has high vapour pressure",
+"It is corrosive liquid",
+"It is mild explosive"
+]
+},
+
+
+{
+num : 29,
+question : " Nitrogen is used to filled electric bulbs because ",
+answer : "Doesnot support combustion",
+options : [
+"Is lighter than air",
+"Makes the bulb give more light",
+"Doesnot support combustion",
+"Is non-toxic"
+]
+},
+
+
+
+{
+num : 30,
+question : "Aqua fortis is a common name of",
+answer : "HNO3",
+options : [
+"H2SO4",
+"HCl",
+"HNO3",
+"H3PO4"
+]
+},
+{
+num : 31,
+question : "The active species of aqua regia is",
+answer : "Nascent chlorine",
+options : [
+"Nascengt hydrogen",
+"Nascent oxygen",
+"Nascent nitrogen",
+"Nascent chlorine"
+]
+},
+
+{
+num : 32,
+question : "Nitrous acid is",
+answer : "Both",
+options : [
+"Oxidizing agent",
+"Reducing agent",
+"Both",
+"None"
+]
+},
+
+{
+num : 33,
+question : "Nitric acid is",
+answer : "Oxidizing agent",
+options : [
+"Oxidizing agent",
+"Reducing agent",
+"Both",
+"None"
+]
+},
+
+{
+num : 34,
+question : "Which of the following is obtained when copper is treated with conc.HNO3?",
+answer : "NO2",
+options : [
+"N2O5",
+"NO2",
+"NO",
+"N2O"
+]
+},
+
+{
+num : 35,
+question : "Which of the following is obtained when zinc is treated with very dil.nitric acid?",
+answer : "NH4NO3",
+options : [
+"N2O5",
+"NO",
+"N2O",
+"NH4NO3"
+]
+},
+
+{
+num : 36,
+question : "Which of the following is formed when red phosphorus is heated with nitric acid",
+answer : "H3PO4",
+options : [
+"HPO2",
+"HPO3",
+"H2PO3",
+"H3PO4"
+]
+},
+
+{
+num : 37,
+question : "Concentrated nitric acid react with iodine to give",
+answer : "HOIO2",
+options : [
+"HI",
+"HOI",
+"HOIO2",
+"HOIO3"
+]
+},
+
+{
+num : 38,
+question : "Which of the following combine with Fe(II) to form a brown complex",
+answer : "NO",
+options : [
+"N2O",
+"NO",
+"N2O3",
+"N2O5"
+]
+},
+
+{
+num : 39,
+question : "Which of the following HNO3 on reduction by Zn gives NH3 ",
+answer : "very dil. HNO3",
+options : [
+"Conc.HNO3",
+"mod.conc.HNO3",
+"dil. HNO3",
+"very dil. HNO3"
+]
+},
+
+{
+num : 40,
+question : "Which of the following compound is explosive?",
+answer : "NCl3",
+options : [
+"NCl3",
+"NO2",
+"PCl5",
+"NO"
+]
+},
+
+{
+num : 41,
+question : "When NH3 is heated with CuO, it gives",
+answer : "N2",
+options : [
+"NO2",
+"NH3",
+"N2",
+"HNO3"
+]
+},
+
+{
+num : 42,
+question : "NH3 is soluble in water because",
+answer : "It forms H-bond with water",
+options : [
+"It is a gas",
+"It forms H-bond with water",
+"It forms NH4OH",
+"All of these"
+]
+},
+
+{
+num : 43,
+question : "Which of the following is formed during lightening",
+answer : "NO",
+options : [
+"O2",
+"N2O",
+"N2O5",
+"NO"
+]
+},
+
+{
+num : 44,
+question : "The metal hydroxide which is soluble in excess ofammonium hydroxide is",
+answer : "Cu(OH)2",
+options : [
+"Fe(OH)2",
+"Al(OH)3",
+"Cu(OH)2",
+"Fe(OH)3"
+]
+},
+
+{
+num : 45,
+question : "NH4OH gives white fumes due to the formation of",
+answer : "NH4Cl",
+options : [
+"NH4OH",
+"NH4Cl",
+"NH4NO2",
+"HCl"
+]
+},
+
+{
+num : 46,
+question : "The aqua regia contains ",
+answer : "NOCl",
+options : [
+"NOCl",
+"ClO2",
+"NCl3",
+"N2O4"
+]
+},
+
+{
+num : 47,
+question : "Liquor ammonia is ",
+answer : "Ammonium hydroxide",
+options : [
+"Ammonium hydroxide",
+"Liquefied ammonia gas",
+"A solution of NH3 in water",
+"Concentrated solution of NH3 in water"
+]
+},
+
+{
+num : 48,
+question : "Nitrolim is",
+answer : "CaCN2 + C",
+options : [
+"CaCN2",
+"CaC2",
+"CaCN2 + C",
+"CaC + CaCN2"
+]
+},
+
+
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

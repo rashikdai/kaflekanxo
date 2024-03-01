@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= physics.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= physics.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "A particle cover equal distance around a circular path in equal interval of time.The quantity remain constant is",
+answer : "speed",
+options : [
+"displacement",
+"velocity",
+"speed",
+"acceleration"
+]
+},
+
+
+{
+num : 2,
+question : "The angular acceleration of a particle along a circular path with uniform speed is",
+answer : "zero",
+options : [
+"uniform but zero",
+"zero",
+"variable",
+"cannot be predicted"
+]
+},
+
+{
+num : 3,
+question : "What determine the nature of path following by the particle?",
+answer : "velocity",
+options : [
+"speed",
+"velocity",
+"acceleration",
+"none"
+]
+},
+
+{
+num : 4,
+question : "A car is taking a turn on a level road.It may be thrown outwards because of the",
+answer : "lack of centripetal force",
+options : [
+"weight",
+"lack of centripetal force",
+"reaction of the ground",
+"frictional force"
+]
+},
+
+{
+num : 5,
+question : "A particle revolves round the circular path with uniform speed.The acceleration of the particle is",
+answer : "along the radius",
+options : [
+"along circumference of circle",
+"along the tangent",
+"along the radius",
+"zero"
+]
+},
+
+{
+num : 6,
+question : "A stone is tied to a piece of string is whirled in a vertical circle.The tension on the string will be maximum at",
+answer : "lowest position",
+options : [
+"highest position",
+"lowest position",
+"horizontal position",
+"same at all position"
+]
+},
+
+{
+num : 7,
+question : "A particle is revolving along a circular path in a horizontal plane.The direction of angular velocity is",
+answer : "perpendicular to plane of circular path",
+options : [
+"tangential",
+"radially inward",
+"radially outward",
+"perpendicular to plane of circular path"
+]
+},
+
+{
+num : 8,
+question : "A ball tied to a string is swing in vertical circle. The quantity that remain constant is",
+answer : "earths pull on ball",
+options : [
+"speed of ball",
+"centripetal force",
+"tension on string",
+"earths pull on ball"
+]
+},
+
+{
+num : 9,
+question : "A cyclist turns around a curve with speed v.If he turns at double the speed along same curve.The tangency to over turn",
+answer : "become four times",
+options : [
+"doubled",
+"become four times",
+"halved",
+"unchanged"
+]
+},
+
+{
+num : 10,
+question : "When a body moves with constant speed along a circle",
+answer : "workdone is zero",
+options : [
+"no force act on it",
+"has no acceleration",
+"has constant velocity",
+"workdone is zero"
+]
+},
+
+{
+num : 11,
+question : "A particle moving in a circular path has constant",
+answer : "kinectic energy",
+options : [
+"velocity",
+"acceleration",
+"momentum",
+"kinectic energy"
+]
+},
+
+{
+num : 12,
+question : "A particle revolves round the circular path,the acceleration of particle is",
+answer : "along radius",
+options : [
+"along circumference of circle",
+"along tangent",
+"along radius",
+"zero"
+]
+},
+
+{
+num : 13,
+question : "For a body rotating uniformly in a circular path,the correct relationship is",
+answer : "constant speed at all point",
+options : [
+"constant speed at all point",
+"constant velocity at all point",
+"same momentum at all points",
+"all of the above"
+]
+},
+
+{
+num : 14,
+question : "The spirals rod are made at mountains because",
+answer : "save vehicle from turning over",
+options : [
+"looks beautiful",
+"reduce speed",
+"save vehicle from turning over",
+"is easier to make spirals rod"
+]
+},
+
+{
+num : 15,
+question : "A techometer is a device to measure the",
+answer : "speed of rotation",
+options : [
+"tension on string",
+"surface tension",
+"speed of rotation",
+"centripetal force"
+]
+},
+
+
+{
+num : 16,
+question : "A car topples over while taking a turn its",
+answer : "inner wheel leaves the road first",
+options : [
+"inner wheel leaves the road first",
+"outer wheel leaves the road first",
+"both wheel level the road simultaneously",
+"depends on dircetion in which car takes turn"
+]
+},
+
+
+{
+num : 17,
+question : "A particle move along a circular path under a action of force.The workdone by a force is",
+answer : "zero",
+options : [
+"positive",
+"negative",
+"zero",
+"finite,may be positve or negative"
+]
+},
+
+
+{
+num : 18,
+question : "A stone of 1kg is tied to the end of string of 1m long.It is whirled in vertical circle.The velocity of stone at the top of thr circle is 4m/s then the tension on the string is",
+answer : "6N",
+options : [
+"16N",
+"6N",
+"10N",
+"5N"
+]
+},
+
+
+{
+num : 19,
+question : "A scooter is going round a circular road of radius 100m at a speed of 10m/s.The angular speed of scooter is",
+answer : "0.1rad/s",
+options : [
+"10rad/s",
+"1rad/s",
+"0.1rad/s",
+"0.01rad/s"
+]
+},
+
+
+{
+num : 20,
+question : "A body of mass 1kg is rotating in a vertical circle of raius 1m.The difference in kinectic energy at bottom and top of circle is",
+answer : "20J",
+options : [
+"10J",
+"20J",
+"50J",
+"30J"
+]
+},
+
+{
+num : 21,
+question : "The angular speed of a wheel is 70rad/s.If the radius of the wheel is 0.5m then linear velocity of wheel is",
+answer : "35m/s",
+options : [
+"10m/s",
+"1m/s",
+"35m/s",
+"70m/s"
+]
+},
+
+{
+num : 22,
+question : "A point on the rim of the wheel 400cm in diameter has velocity of 1600cm/s.The angular velocity of the wheel is",
+answer : "8rad/s",
+options : [
+"6rad/s",
+"4rad/s",
+"2rad/s",
+"8rad/s"
+]
+},
+
+{
+num : 23,
+question : "The angular velocity of particle rotating in a circular path 100 times per minute is",
+answer : "10.47rad/s",
+options : [
+"1.66rad/s",
+"10.47rad/s",
+"15rad/s",
+"60rad/s"
+]
+},
+
+{
+num : 24,
+question : "A body crosses top most point of a vertical circle with critical speed.The acceleration when string becomes horizontal is",
+answer : "3g",
+options : [
+"g",
+"2g",
+"3g",
+"4g"
+]
+},
+
+{
+num : 25,
+question : "A 0.5kg ball moves in circle of radius 0.4m at a velocity of 4m/s.Then centripetal force is",
+answer : "20N",
+options : [
+"10N",
+"20N",
+"40N",
+"80N"
+]
+},
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

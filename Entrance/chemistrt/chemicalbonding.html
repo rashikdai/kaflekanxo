@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "Which of fthis liquid is at ordinary temp?",
+answer : "HF",
+options : [
+"HF",
+"HCl",
+"HBr",
+"HI"
+]
+},
+
+
+
+{
+num : 2,
+question : "Which of these doesnot contain ionic bonds?",
+answer : "HCl",
+options : [
+"NH4Cl",
+"HCl",
+"K2S",
+"NaOH"
+]
+},
+
+{
+num : 3,
+question : "Which of the following acid have covalent bond?",
+answer : "H3PO4",
+options : [
+"H3PO3",
+"H2CO3",
+"H3PO4",
+"All"
+]
+},
+
+{
+num : 4,
+question : "The highest covalent character is found in",
+answer : "CaI2",
+options : [
+"CaF2",
+"CaCl2",
+"CaBr2",
+"CaI2"
+]
+},
+
+{
+num : 5,
+question : "HCl is a gas whereas HF is a liquid due to",
+answer : "H-F bond being stronger",
+options : [
+"H-F bond being stronger",
+"H-F bond being weaker",
+"H-Cl being stronger bond",
+"None"
+]
+},
+
+{
+num : 6,
+question : "which of the following contains both covalent and ionic bond?",
+answer : "NH4Cl",
+options : [
+"CCl4",
+"CaCl2",
+"NH4Cl",
+"H2O"
+]
+},
+
+{
+num : 7,
+question : "the number of unpaired electron on Zn^++ is",
+answer : "0",
+options : [
+"0",
+"4",
+"3",
+"2"
+]
+},
+
+{
+num : 8,
+question : "Which is an electron deficient compound?",
+answer : "BCl3",
+options : [
+"ICl",
+"NH3",
+"BCl3",
+"PCl3"
+]
+},
+
+{
+num : 9,
+question : "What is the maximum number of hydrogen bonds in which a water molecule can particiate?",
+answer : "4",
+options : [
+"1",
+"2",
+"3",
+"4"
+]
+},
+
+{
+num : 10,
+question : "Which of the following bond has more polar character?",
+answer : "C-F",
+options : [
+"C-O",
+"C-Br",
+"C-F",
+"C-S"
+]
+},
+
+{
+num : 11,
+question : "A molecule which is most stabe has bond order",
+answer : "1",
+options : [
+"0",
+"-0.5",
+"+0.5",
+"1"
+]
+},
+
+{
+num : 12,
+question : "The no of unpaired electron in an oxygen molecule is",
+answer : "2",
+options : [
+"0",
+"1",
+"2",
+"3"
+]
+},
+
+{
+num : 13,
+question : "A covalent bond is formed as a result of",
+answer : "Sharing of electron contributed by both atom",
+options : [
+"Transfer of electron from one atom to another",
+"Electrostatics attraction between two atoms",
+"Sharing of electron contributed by only one atom",
+"Sharing of electron contributed by both atom"
+]
+},
+
+{
+num : 14,
+question : "The strongest bond is",
+answer : "Ionic",
+options : [
+"Ionic",
+"Covalent",
+"Hyrogen",
+"Metallic"
+]
+},
+
+{
+num : 15,
+question : "which of the following has bond angle nearest to 90?",
+answer : "H2S",
+options : [
+"NH3",
+"H2S",
+"H2O",
+"CH4"
+]
+},
+
+{
+num : 16,
+question : "the largest bond length is present in",
+answer : "Cl2",
+options : [
+"F2",
+"N2",
+"Cl2",
+"O2"
+]
+},
+
+{
+num : 17,
+question : "which doesnot obey octet rule?",
+answer : "BF3",
+options : [
+"BF3",
+"XeF2",
+"NO2",
+"None"
+]
+},
+
+{
+num : 18,
+question : "which of the following has zero dipole moment?",
+answer : "SiF4",
+options : [
+"ClF",
+"PCl3",
+"SiF4",
+"CFCl3"
+]
+},
+
+
+{
+num : 19,
+question : "Which has the highest boiling point?",
+answer : "Xe",
+options : [
+"He",
+"Ne",
+"Xe",
+"Kr"
+]
+},
+
+{
+num : 20,
+question : "structure of ammonia is",
+answer : "pyramidal",
+options : [
+"pyramidal",
+"tetrahedral",
+"triganol",
+"triganol bipyramidal"
+]
+},
+
+{
+num : 21,
+question : "Carbon atoms in diamond are bonded with each other in configuration ",
+answer : "tetrahedral",
+options : [
+"planar",
+"tetrahedral",
+"linear",
+"octahedral"
+]
+},
+
+{
+num : 22,
+question : "cation is producedd when",
+answer : "electron is lost by the atom",
+options : [
+"electron is gained by the atom",
+"electron is lost by the atom",
+"proton is lost by the atom",
+"neutron is lost by the atom"
+]
+},
+
+{
+num : 23,
+question : "which of the following exhibit the weakest intermolecular force?",
+answer : "He",
+options : [
+"NH3",
+"H2O",
+"HCl",
+"He"
+]
+},
+
+{
+num : 24,
+question : "Which molecule is non-polar?",
+answer : "BF3",
+options : [
+"CHCl3",
+"H2Se",
+"NF3",
+"BF3"
+]
+},
+
+{
+num : 25,
+question : "when a neutral atom is converted to cation its",
+answer : "size decreases",
+options : [
+"atomic weight increases",
+"atomic weight decreases",
+"size increases",
+"size decreases"
+]
+},
+
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

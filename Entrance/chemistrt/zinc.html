@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "The principle ore of zinc is:",
+answer : "zinc blends",
+options : [
+"zinc blends",
+"balamine",
+"zincite",
+"silicious zinc"
+]
+},
+
+{
+num : 2,
+question : "calamine is",
+answer : "ZnCO3",
+options : [
+"ZnS",
+"ZnO",
+"ZnCO3",
+"ZnSO4"
+]
+},
+
+{
+num : 3,
+question : "In the extraction of zinc,zinc oxide is reduced to zinc by ",
+answer : "carbon reduction",
+options : [
+"electrolysis",
+"Alumno-thermic process",
+"carbon reduction",
+"None"
+]
+},
+
+{
+num : 4,
+question : "ore containing zinc blend is concentrated by",
+answer : "froth floatation",
+options : [
+"magnetic seperation",
+"froth floatation",
+"Hand picking",
+"Gravity seperation"
+]
+},
+
+{
+num : 5,
+question : "Vertical retort is externally heated by ",
+answer : "producer gas",
+options : [
+"water gas",
+"semi-water gas",
+"producer gas",
+"fire"
+]
+},
+
+{
+num : 6,
+question : "producer gas is :",
+answer : "CO + N2",
+options : [
+"CO + N2",
+"C + N2",
+"CO2 + H2",
+"CO + H2O"
+]
+},
+
+{
+num : 7,
+question : "Zinc react with dilute nitric acid to produce ",
+answer : "NH4NO3",
+options : [
+"NO2",
+"NO",
+"NH4NO3",
+"N2O3"
+]
+},
+
+{
+num : 8,
+question : "When zinc is allowed to react with concentrated nitric acid to produce:",
+answer : "NO2",
+options : [
+"NH4NO3",
+"NO2",
+"NO",
+"N2O"
+]
+},
+
+{
+num : 9,
+question : "Excess of NaOH reacts with zinc to form :",
+answer : "Na2ZnO",
+options : [
+"ZnO",
+"ZnH2",
+"Zn(OH)2",
+"Na2ZnO"
+]
+},
+
+{
+num : 10,
+question : "Copper is dispalced  by Zn from CuSO4 because:",
+answer : "Cu is less electropositive than Zn",
+options : [
+"Cu is more electropositive than Zn",
+"Cu is less electropositive than Zn ",
+"Cu is coinage metal",
+"Cu has larger atomic radius"
+]
+},
+
+{
+num : 11,
+question : "Galvanization  of iron prevents iron from rusting because it has a coating of :",
+answer : "Zn",
+options : [
+"Hg",
+"Cu",
+"Sn",
+"Zn"
+]
+},
+
+{
+num : 12,
+question : "Galvanization is the deposition of :",
+answer : "Zn on Fe",
+options : [
+"Fe on Zn",
+"Al on Fe",
+"Zn on Fe",
+"Cu on Fe"
+]
+},
+
+{
+num : 13,
+question : "Which of oxide is different from others ?",
+answer : "ZnO",
+options : [
+"MgO",
+"Na2O",
+"CuO",
+"ZnO"
+]
+},
+
+{
+num : 14,
+question : "Zic oxide is :",
+answer : "Amphoteric oxide",
+options : [
+"Basic oxide",
+"Acidic oxide",
+"Neutral oxide",
+"Amphoteric oxide"
+]
+},
+
+{
+num : 15,
+question : "Zinc oxide is also called:",
+answer : "Philisopher's wool",
+options : [
+"White vitriol",
+"Philisopher's wool",
+"Calamine",
+"Malachite"
+]
+},
+
+{
+num : 16,
+question : "Zine in moist air forms ",
+answer : "Basic carbonate",
+options : [
+"Hydroxide",
+"Basic oxide",
+"Basic carbonate",
+"No reaction"
+]
+},
+
+{
+num : 17,
+question : "The chemical formula of zinc blende is",
+answer : "Zns",
+options : [
+"Zns",
+"ZnSO4",
+"ZnO",
+"Zn2S"
+]
+},
+
+{
+num : 18,
+question : "The product obtained when zinc reacts with dilute nitric acid is",
+answer : "N2O",
+options : [
+"NO2",
+"NO",
+"N2O",
+"NH4NO3"
+]
+},
+
+{
+num : 19,
+question : " Whic of the following material is used to reduce zinc oxide in preperation of zinc?",
+answer : "C",
+options : [
+"SO2",
+"H2S",
+"H2SO4",
+"C"
+]
+},
+
+{
+num : 20,
+question : "Which of the following metal disslove in hot and conc. NaOH solution?",
+answer : "Zn",
+options : [
+"Fe",
+"Zn",
+"Ag",
+"Cu"
+]
+},
+
+{
+num : 21,
+question : "The percentage of silver in German silver is ",
+answer : "0%",
+options : [
+"60%",
+"20%",
+"33%",
+"0%"
+]
+},
+
+{
+num : 22,
+question : "Zinc doesnot give hydrogen gas in ",
+answer : "Conc. HNO3",
+options : [
+"Dil. HCl",
+"Dil. H2SO4",
+"Conc. and hot NaOH",
+"Conc. HNO3"
+]
+},
+
+{
+num : 23,
+question : "Whic of the following puricification method is used for Zinc",
+answer : "All of the above",
+options : [
+"liquation",
+"Fractional distillation",
+"Electrolytic refining",
+"All of the above"
+]
+},
+
+
+{
+num : 24,
+question : "The trace metal present in insulin is ",
+answer : "zinc",
+options : [
+"iron",
+"cobalt",
+"zinc",
+"manganese"
+]
+},
+
+
+{
+num : 25,
+question : "zinc sulphate used in a medicine as",
+answer : "styptic",
+options : [
+"Tranquilizer",
+"Antiseptics",
+"styptic",
+"Analgesic"
+]
+},
+
+{
+num : 26,
+question : "Anhydrous zinc chloride is also known as",
+answer : "Butter of zinc",
+options : [
+"zinc white",
+"lithopone",
+"white vitriol",
+"Butter of zinc"
+]
+},
+
+
+
+{
+num : 27,
+question : "Which of the following is used in making ointment for curing skin disease?",
+answer : "ZnSO4",
+options : [
+"ZnO",
+"ZnCO3",
+"ZnSO4",
+"Zns"
+]
+},
+
+
+
+{
+num : 28,
+question : "Lucas reagent is ",
+answer : "ZnCl2 + conc.HCl",
+options : [
+"ZnCl2 + conc.HCl",
+"MnO2 + H2O",
+"H2SO4 + HCl",
+"NO + H2O"
+]
+},
+
+
+
+{
+num : 29,
+question : "zinc oxide is used in",
+answer : "white paint",
+options : [
+"paper bleaching",
+"white paint",
+"Black glasses",
+"soaps"
+]
+},
+
+
+
+{
+num : 30,
+question : "Which of the following id Rinnmans Green ?",
+answer : "complex of ZnO with cobalt nitrate",
+options : [
+"Ferrous ferocyanide",
+"Ferric ferocyanide",
+"complex of ZnO with cobalt nitrate",
+"ferric ferocyanide"
+]
+},
+
+
+
+{
+num : 31,
+question : "Philosophers wool is ",
+answer : "ZnO",
+options : [
+"Cr2O3",
+"ZnO",
+"HgO",
+"CuO"
+]
+},
+
+
+
+{
+num : 32,
+question : "In the extraction of zinc, the formation of blue flame is due to burning of",
+answer : "CO",
+options : [
+"ZnO",
+"C",
+"CO",
+"Zn"
+]
+},
+
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

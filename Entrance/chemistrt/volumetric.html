@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "Weight of HCL required reactting gm of?",
+answer : "146gm",
+options : [
+"36.5gm",
+"73gm",
+"146gm",
+"292gm"
+]
+},
+
+
+{
+num : 2,
+question : "If 100 ml of 1N HCl is treated with 100 ml of 0.5M Na2CO3, resulting solution is",
+answer : "Neutral",
+options : [
+"Acidic",
+"Basic",
+"Neutral",
+"None"
+]
+},
+
+
+{
+num : 3,
+question : "The no of mole in 1680ml of NH3 is",
+answer : "0.075",
+options : [
+"0.05",
+"0.075",
+"0.06",
+"0.0625"
+]
+},
+
+
+{
+num : 4,
+question : "5gm of oxalic acid crystals(COOH)2.2H2O are dissolved in water and solution is made up to 250ml.If 25ml of solution is required for complete neutralization if 15.9cc of N/2 NaOH, the value of x is",
+answer : "2",
+options : [
+"2",
+"3",
+"4",
+"5"
+]
+},
+
+
+{
+num : 5,
+question : "The titartion of KMnO4 with (COOh)2.2H2O is",
+answer : "Redox titration",
+options : [
+"Acidimetry",
+"Alaklimetry",
+"Redox titration",
+"None"
+]
+},
+
+
+{
+num : 6,
+question : "When 53gm of Na2CO3 is dissolved to make 10L of the solution, the solution is",
+answer : "decinormal",
+options : [
+"centinormal",
+"decinormal",
+"normal",
+"seminormal"
+]
+},
+
+
+{
+num : 7,
+question : "Concnetration of solution sulphuric acid is 10N. How can we prepare 750cc of 2N sulphuric acid from it?",
+answer : "Dilute 150cc of O.S. to 750cc",
+options : [
+"Dilute 150cc of O.S. to 750cc",
+"Dilute 50cc of O.S. to 750cc",
+"Dilute 250cc of O.S. to 750cc",
+"Dilute 100cc of O.S. to 750cc"
+]
+},
+
+
+{
+num : 8,
+question : "In the titration of oxalic acid and potassium dichromate in the acidic medium the indicator used is",
+answer : "None",
+options : [
+"Phenolphthalien",
+"Methylorange",
+"Methylred",
+"None"
+]
+},
+
+
+{
+num : 9,
+question : "In what ratio the solution having 2.5N and 0.62N are, mixed to prepare 1 litre of mixture of unity normality?",
+answer : "200ml,800ml",
+options : [
+"600ml,400ml",
+"500ml,500ml",
+"200ml,800ml",
+"900ml,100ml"
+]
+},
+
+
+{
+num : 10,
+question : "6.3gm of hydrated oxlic acid (H2C2O4.H2O) is present in 100ml normal solution of the acid. The mole of water of crystallization is",
+answer : "2",
+options : [
+"2",
+"3",
+"4",
+"5"
+]
+},
+
+
+{
+num : 11,
+question : "The mass of CaCO3 produced when is bubbled through 200ml of 0.2N Ca(OH)2 will be",
+answer : "4gm",
+options : [
+"1gm",
+"2gm",
+"3gm",
+"4gm"
+]
+},
+
+
+{
+num : 12,
+question : "6.3gm of hydrated oxalic acid is diluted to 250ml solution.The volume of 0.1N NaOH required to neutralize 10ml of resulting solution is  ",
+answer : "40ml",
+options : [
+"10ml",
+"20ml",
+"30ml",
+"40ml"
+]
+},
+
+
+{
+num : 13,
+question : "The amount of sulphuric acid present in the 500cc of its1.5N solution is",
+answer : "36.75gm",
+options : [
+"49gm",
+"36.75gm",
+"24.5gm",
+"9.8gm"
+]
+},
+
+
+{
+num : 14,
+question : "When carbondioxide is passed through excess 500ml of 0.5M Ca(OH)2, then the mass of CaCo3 formed is",
+answer : "25gm",
+options : [
+"25gm",
+"75gm",
+"50gm",
+"100gm"
+]
+},
+
+
+{
+num : 15,
+question : "The resultant pH of the solution when 100ml of 0.02N HCl and 300ml of 0.01 NaOH are mixed is",
+answer : "12.7",
+options : [
+"1.3",
+"2.7",
+"11.3",
+"12.7"
+]
+},
+
+
+{
+num : 16,
+question : "5.3g of metal carboante is dissolved in 150ml of 1N HCl.Unused acid required 100ml of 0.5 N NaOH.The equivalent weight of metal is",
+answer : "23",
+options : [
+"12",
+"23",
+"13",
+"24"
+]
+},
+
+
+{
+num : 17,
+question : "The pH of the resulting solution obtained by mixing o.1M NaOH and 0.01M HCl in equal volume is",
+answer : "11.65",
+options : [
+"12.65",
+"11.65",
+"2.35",
+"1.35"
+]
+},
+
+
+{
+num : 18,
+question : "The weight of NaOH in 250 ml of 0.2N solution is",
+answer : "2gm",
+options : [
+"1gm",
+"0.1gm",
+"40gm",
+"2gm"
+]
+},
+
+
+{
+num : 19,
+question : "3.2gm of dibasic acid required 100ml of N/2 NaOH solution for neutralization . The molecular weight of the acid is",
+answer : "128",
+options : [
+"16",
+"32",
+"64",
+"128"
+]
+},
+
+
+{
+num : 20,
+question : "The weight of H2SO4 in 2.5 litres of 2M H2SO4 is",
+answer : "490gm",
+options : [
+"400gm",
+"450gm",
+"480gm",
+"490gm"
+]
+},
+
+{
+num : 21,
+question : "Which of the following is independent of temperature?",
+answer : "Molality",
+options : [
+"Molarity",
+"Molality",
+"formality",
+"Normality"
+]
+},
+
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

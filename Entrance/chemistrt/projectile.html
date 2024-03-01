@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= physics.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= physics.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "A body is projected upwards its acceleration at highest point of path is",
+answer : "directed downwards",
+options : [
+"zero",
+"directed upwards",
+"directed downwards",
+"none"
+]
+},
+
+{
+num : 2,
+question : "The maximum height attain by the projectile doesnot depend upon",
+answer : "mass of projectile",
+options : [
+"magnitude of initial velocity",
+"angle of projection",
+"mass of projectile",
+"acceleration of projectile"
+]
+},
+
+{
+num : 3,
+question : "The quantity which remain constant in projectile motion is",
+answer : "Horizontal component of velocity",
+options : [
+"speed",
+"velocity",
+"Horizontal component of velocity",
+"kinetic energy"
+]
+},
+
+{
+num : 4,
+question : "At which angle the range of projection will be maximum(in degree?",
+answer : "45",
+options : [
+"30",
+"45",
+"90",
+"60"
+]
+},
+
+{
+num : 5,
+question : "The speed of projectile is minimum at",
+answer : "highest point",
+options : [
+"point of projection",
+"highest point",
+"midway between point of projection and highest point",
+"Depends upon angle of projection"
+]
+},
+
+{
+num : 6,
+question : "The correct statement for kinetic energy is",
+answer : "minimum at maximum height",
+options : [
+"remain constant",
+"maximum at maximum height",
+"minimum at maximum height",
+"minimum at a point of projection"
+]
+},
+
+{
+num : 7,
+question : "For hitting a target one must aim",
+answer : "higher than target",
+options : [
+"diectly at target",
+"higher than target",
+"lower than target",
+"higher or lower depending upon velocity"
+]
+},
+
+{
+num : 8,
+question : "If the time of flight of a projectile is doubled, then the maximum height attained by the projectile is",
+answer : "become four times",
+options : [
+"doubled",
+"halved",
+"become one fourth",
+"become four times"
+]
+},
+
+{
+num : 9,
+question : "In the projectile motion,the velocity is",
+answer : "perpendicular to acceleration at one instant only",
+options : [
+"Always perpendicular to acceleration",
+"Never perpendicular to acceleration",
+"Perpendicular to acceleration for half of the journey",
+"perpendicular to acceleration at one instant only"
+]
+},
+
+{
+num : 10,
+question : "the time of flight of a projectile over an inclined plane depends upon",
+answer : "All of the above",
+options : [
+"angle of projection only",
+"angle of inclination of plane only",
+"initial speed of projectile",
+"All of the above"
+]
+},
+
+{
+num : 11,
+question : "A body thrown at a angle'A' with horizontal from ground.The velocity of ball at highest point of path is",
+answer : "u cosA",
+options : [
+"u",
+"u cosA",
+"u sinA",
+"0"
+]
+},
+
+{
+num : 12,
+question : "A projectile is divided into two piece at maximum height.Then,",
+answer : "KE increases",
+options : [
+"momentum increases",
+"momentum decreases",
+"KE increases",
+"KE decreases"
+]
+},
+
+{
+num : 13,
+question : "the velocity at maximum height of a projectile is half of its initial velocity ,then the angle of projection is(in degree)",
+answer : "60",
+options : [
+"30",
+"45",
+"90",
+"60"
+]
+},
+
+{
+num : 14,
+question : "A cricket player can throw a ball to maximum distance R.The maximum vertical distance to which he can throw is",
+answer : "R/2",
+options : [
+"R",
+"2R",
+"R/2",
+"R/4"
+]
+},
+
+{
+num : 15,
+question : "The range of projectile projected at an angle 15 degree is 600m.The range if it is projected with an angle 45 degree is",
+answer : "300m",
+options : [
+"150m",
+"300m",
+"600m",
+"750m"
+]
+},
+
+{
+num : 16,
+question : "A body is projected at angle of 30 degree with horizontal speed 30m/s.The angle with horizontal after 1.5sec will be(in degree)",
+answer : "0",
+options : [
+"0",
+"30",
+"60",
+"90"
+]
+},
+
+{
+num : 17,
+question : "A particle is projected from ground with velocity 25m/s.After 2 sec it just clears a wall 5m high.The angle of projection is(in degree)",
+answer : "30",
+options : [
+"30",
+"45",
+"60",
+"75"
+]
+},
+
+{
+num : 18,
+question : "The velocity of a projetile increases by 2% then %increase in range of a projectile will be",
+answer : "4%",
+options : [
+"1%",
+"2%",
+"4%",
+"8%"
+]
+},
+
+{
+num : 19,
+question : "A cricketer can throw a ball to another player in 2second.The maximum height attained by the ball is",
+answer : "5m",
+options : [
+"10m",
+"7.5m",
+"5m",
+"2.5m"
+]
+},
+
+{
+num : 20,
+question : "A man can throw a stone to a maximum distance of 40m.The maximum height to which it will rise is",
+answer : "10m",
+options : [
+"40m",
+"30m",
+"20m",
+"10m"
+]
+},
+
+
+{
+num : 21,
+question : "A stone is thrown at a angle of 45 degree to horizontal with kinectic energy 'K'. The kinetic energy at highest point is",
+answer : "K/2",
+options : [
+"K",
+"2K",
+"4K",
+"K/2"
+]
+},
+
+
+{
+num : 22,
+question : "A body is projected vertically upward,the acceleration of ball at highest point of path is",
+answer : "g downward",
+options : [
+"g upward",
+"g downward",
+"zero",
+"cannot be predict"
+]
+},
+
+
+{
+num : 23,
+question : "Two bullets are fired horizontally with different velocities from the same height.The bullet will reach the ground",
+answer : "Both at same time",
+options : [
+"earlier faster one",
+"earlier slower one",
+"Both at same time",
+"cannot be predict"
+]
+},
+
+
+{
+num : 24,
+question : "The greatest quantity ,when height attained by the projectile is greatest is",
+answer : "Time of flight",
+options : [
+"Range",
+"Time of flight",
+"Angle of projection with vertical",
+"None"
+]
+},
+
+
+{
+num : 25,
+question : "The time of flight of a projectile over an inclined plane depends upon",
+answer : "all of the above",
+options : [
+"angle of projection only",
+"angle of inclination of a plane only",
+"initial speed of projectile",
+"all of the above"
+]
+},
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= chemchap.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "Heavy water is",
+answer : "D2O",
+options : [
+"D2O",
+"T2O",
+"H2O",
+"H2O + CO"
+]
+},
+
+{
+num : 2,
+question : "Lwad pipe are not good for drinking water purposes because",
+answer : "Form lead hydroxide with water",
+options : [
+"Lead is a hard metal",
+"Disintegrate in water",
+"Form lead hydroxide with water",
+"Form lead oxide"
+]
+},
+
+{
+num : 3,
+question : "Water has high boiling point beacuse of",
+answer : "H-bonding",
+options : [
+"High dipole moment",
+"H-bonding",
+"High specific heat",
+"Closed lattice structure"
+]
+},
+
+{
+num : 4,
+question : "Hard water is not fit for wasing clothes because",
+answer : "It give precipitate with soap",
+options : [
+"It contains Na2SO4 and KCl",
+"It give precipitate with soap",
+"It contains impurities",
+"It is acidic in nature"
+]
+},
+
+{
+num : 5,
+question : "Water can be tested by",
+answer : "Anhydrous CoCl3 which changes to pink",
+options : [
+"Smell",
+"Taste",
+"Hydrated CuSO4",
+"Anhydrous CoCl3 which changes to pink"
+]
+},
+
+{
+num : 6,
+question : "Water possesses a high dielectric constant, therefore",
+answer : "It is a universal solvent",
+options : [
+"It can disslove covalent compound",
+"It is a universal solvent",
+"It always contains ions",
+"It can conduct electricity"
+]
+},
+
+{
+num : 7,
+question : "The purest form of water is",
+answer : "well water",
+options : [
+"spring water",
+"well water",
+"Rain water",
+"surface water"
+]
+},
+
+{
+num : 8,
+question : "The oxidation state exibited by hydrogen in its various compounds are",
+answer : "+1,-1,zero",
+options : [
+"-1",
+"zero",
+"+1,-1,zero",
+"+1"
+]
+},
+
+{
+num : 9,
+question : "Hydrogen can be placed in group VIIA because",
+answer : "It forms hydrides like NaH",
+options : [
+"It is lighter",
+"It forms hydrides like NaH",
+"It contains only 1 hydrogen",
+"It has iostope like T and D"
+]
+},
+
+{
+num : 10,
+question : "Number of neutrons present in protium is",
+answer : "zero",
+options : [
+"1",
+"zero",
+"2",
+"3"
+]
+},
+
+{
+num : 11,
+question : "Which of the following is radioactive?",
+answer : "Tritium",
+options : [
+"Hydrogen",
+"protium",
+"Deuterium",
+"Tritium"
+]
+},
+
+{
+num : 12,
+question : "Composition of the nucleus of deuterium is",
+answer : "1 proton, 1 neutron",
+options : [
+"1 electron, 1 proton",
+"1 proton, 1 neutron",
+"2 proton, 1 neutron",
+"2 proton, 2 neutron"
+]
+},
+
+{
+num : 13,
+question : "Oxidation state of hydrogen in sodium hydride(NaH) is",
+answer : "-1",
+options : [
+"zero",
+"+1",
+"-1",
+"2"
+]
+},
+
+{
+num : 14,
+question : "Hydrogen is adsorbed by",
+answer : "Pd",
+options : [
+"Al",
+"K",
+"Pd",
+"Zn"
+]
+},
+
+{
+num : 15,
+question : "Adsorption of hydrogen by metal is called",
+answer : "Occlusion",
+options : [
+"Dehydrogenation",
+"Adsorption",
+"Hydrogenation",
+"Occlusion"
+]
+},
+
+{
+num : 16,
+question : "Chalcogens are the elements of .... group of periodic table",
+answer : "VIA",
+options : [
+"VIIA",
+"VIA",
+"VIB",
+"VIIB"
+]
+},
+
+{
+num : 17,
+question : "In a group, metallic character .... with increase in atomic no",
+answer : "increase",
+options : [
+"decrease",
+"increase",
+"dont change",
+"firts increase and decrease"
+]
+},
+
+{
+num : 18,
+question : "Al2O3 is a/an",
+answer : "amphoteric oxide",
+options : [
+"basic oxide",
+"acidic oxide",
+"amphoteric oxide",
+"neutral oxide"
+]
+},
+
+{
+num : 19,
+question : "The formula of ozone O3 is .... of oxygen",
+answer : "Allotropes",
+options : [
+"Allotropes",
+"Isotope",
+"Compound",
+"None"
+]
+},
+
+{
+num : 20,
+question : "Ozone readily dissolve in",
+answer : "turpentine oil",
+options : [
+"water",
+"CS2",
+"NH3",
+"turpentine oil"
+]
+},
+
+{
+num : 21,
+question : "The addition of sodium carbonate in in pure water causes",
+answer : "Increase in pH",
+options : [
+"Increase in pH",
+"Decrease in pH",
+"No change in pH",
+"None"
+]
+},
+
+{
+num : 22,
+question : "The shape of water of water molecules is",
+answer : "V-shape",
+options : [
+"Tetrahedral",
+"Linear",
+"Pyramidal",
+"V-shape"
+]
+},
+
+{
+num : 23,
+question : "Water is said to be permanently hard when it contains",
+answer : "Chlorides and sulphates of Mg and Ca",
+options : [
+"Chlorides and sulphates of Mg and Ca",
+"Bicarbonates of Na and K",
+"Carbonates of Na and K",
+"Phosphates of Na and k"
+]
+},
+
+{
+num : 24,
+question : "Water softening by clarks process uses",
+answer : "calcium hydroxide",
+options : [
+"calcium bicarbonate",
+"Sodium bicarbonate",
+"potash alum",
+"calcium hydroxide"
+]
+},
+
+{
+num : 25,
+question : "The reagent commonly used to determine hardness of water titrimetrically is",
+answer : "Disodium salt of EDTA",
+options : [
+"Oxalic acid",
+"Disodium salt of EDTA",
+"Sodium citrate",
+"Sodium thiosulphate"
+]
+},
+
+{
+num : 26,
+question : "The reagent use for softening the temporary hardness of water is",
+answer : "both a and b",
+options : [
+"Na2CO3",
+"Ca(OH)2",
+"both a and b",
+"NaOCl"
+]
+},
+
+{
+num : 27,
+question : "Permanent hardness of water can be removed by adding",
+answer : "Na2CO3",
+options : [
+"Na2CO3",
+"K",
+"Ca(OCl)Cl",
+"Cl2"
+]
+},
+
+{
+num : 28,
+question : "Heavy water is made by",
+answer : "Exhaustive electrolysis of alkaline water",
+options : [
+"Fractional distillation",
+"Freezing method",
+"Exhaustive electrolysis of alkaline water",
+"Chemical method"
+]
+},
+
+{
+num : 29,
+question : "Dipole moment of water is ",
+answer : "1.84D",
+options : [
+"1.8D",
+"1.84D",
+"1.88D",
+"2.24D"
+]
+},
+
+{
+num : 30,
+question : "Mol. wt. of heavy water is",
+answer : "20",
+options : [
+"18",
+"19",
+"20",
+"32"
+]
+},
+
+{
+num : 31,
+question : "In which process both canion and anion are removed",
+answer : "Organic",
+options : [
+"Permutit",
+"Calgon",
+"Organic",
+"All"
+]
+},
+
+{
+num : 32,
+question : "Which of the following moderate heating given oxygen",
+answer : "HgO",
+options : [
+"CuO",
+"Al2O3",
+"HgO",
+"Zno"
+]
+},
+
+{
+num : 33,
+question : "Which of the folowing doesnot cause hardness of water?",
+answer : "FeSO4",
+options : [
+"CaCl2",
+"MgSO4",
+"CaSO4",
+"FeSO4"
+]
+},
+
+{
+num : 34,
+question : "Permanent hardness of water cannot be removed by",
+answer : "boiling",
+options : [
+"adding washing soda",
+"boiling",
+"permutit process",
+"calgon process"
+]
+},
+
+{
+num : 35,
+question : "Zeolite are used as ",
+answer : "ion exchanger",
+options : [
+"gem",
+"ion exchanger",
+"pigment",
+"lubricant"
+]
+},
+
+{
+num : 36,
+question : "In permutit process sodium zeolite is regenrated by solution of",
+answer : "NaCl",
+options : [
+"NaCl",
+"KCl",
+"CaCl2",
+"MgCl2"
+]
+},
+
+{
+num : 37,
+question : "In calgon process, hardnes is removed by",
+answer : "inactive complexes",
+options : [
+"precipitation",
+"inactive complexes",
+"exchanged ions",
+"none"
+]
+},
+
+{
+num : 38,
+question : "Maximum density of water is at",
+answer : "4 C",
+options : [
+"0 C",
+"100 C",
+"-20 C",
+"4 C"
+]
+},
+
+{
+num : 39,
+question : "Bond angle in water molecule is",
+answer : "104.5",
+options : [
+"109.28",
+"104.5",
+"107.5",
+"none"
+]
+},
+
+{
+num : 40,
+question : "Heavy water is used as",
+answer : "A moderator",
+options : [
+"washing water",
+"Detergent",
+"Drinking water",
+"A moderator"
+]
+},
+
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My mcq</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">-->
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+body{
+    background: #001e4d;
+   
+}
+
+.start_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 2px solid #0f0b0b;
+    padding: 10px 30px;
+    color: #fff;
+    background: #a7ccd0;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.start_quiz:hover{
+    background:#474242;
+    color: #fff;
+}
+
+.inactive{
+    display: none;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.quiz-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #000000;
+    border: 1px ;
+    border-radius: 10px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    background-color:azure;
+}
+.quiz-box h2{
+    font-size: 30px;
+  
+}
+.quiz-box .option{
+    font-size: 18px;
+    border: 2px solid #fff;
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+     background-color: #fff;
+    
+    
+}
+.quiz-box .option .fa{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 30px;
+}
+
+.quiz-box .option.incorrect{
+    background: rgb(241, 153, 153);
+    color: rgb(184, 12, 12);
+    border-color: rgb(184, 12, 12);
+}
+.quiz-box .option.correct{
+    background: rgb(157, 246, 157);
+    color: rgb(6, 138, 28);
+    border-color: rgb(6, 138, 28);
+}
+
+.quiz-box .option:hover{
+    background: #1d1721;
+    color: #fff;
+}
+
+.quiz-footer{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px dashed #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+.count_que,.total_que{
+    font-weight: bolder;
+    font-size: 20px;
+}
+.footer-left{
+    font-size: 18px;
+}
+.next-btn{
+    font-size: 18px;
+    border: 2px solid #131010;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.next-btn:hover{
+    background: #fff;
+    color: #911ae2;
+}
+
+.result-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #100e0e;
+    border-radius: 7px;
+    box-shadow: 0 0 10px #777;
+    padding: 18px;
+
+    width: 100%;
+    max-width: 450px;
+    background: #aab1b0;
+}
+.result-box h2{
+    font-size: 36px;
+    background: rgb(140, 242, 127);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 12px;
+}
+.result-box .result{
+    padding: 40px;
+}
+.result-box h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.result-footer{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 30px;
+}
+.result-footer .again-quiz,.result-footer .exit{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.result-footer .again-quiz{
+    background: #911ae2;
+    color: #fff;
+    border-color: #911ae2;
+}
+.result-footer .again-quiz:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color: #fff;
+}
+
+/*.result-footer .exit{
+    background: #911ae2;
+    color: #fff;
+    border-color :#911ae2;
+}
+
+.result-footer .exit:hover{
+    background: #fff;
+    color: #911ae2;
+    border-color:#fff ;}*/
+.button{
+    background-color: #911ae2;
+}
+    
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="start_quiz">Start Quiz</div>
+<div class="back"> <a href= physics.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 12px;padding: 7px 15px;text-align: center;border-color: #911ae2;  " >back</button></a></div>
+<div class="quiz-box inactive">
+
+   <h2 class="que_text"></h2>
+   <div class="options">
+   </div>
+   <div class="quiz-footer">
+      <div class="footer-left">
+         <span class="count_que"></span> of <span class="total_que"></span> Questions
+      </div>
+      <div class="footer-right">
+         <div class="next-btn inactive">Next Question</div>
+      </div>
+   </div>
+</div>
+<div class="result-box inactive">
+   <h2>Result</h2>
+   <div class="result">
+      <h3 class="total-que">Total Questions : <span></span></h3>
+      <h3 class="right-ans">Right Answers : <span></span></h3>
+      <h3 class="wrong-ans">Wrong Answers : <span></span></h3>
+      <h3 class="percentage">Percentage : <span></span></h3>
+   </div>
+   <div class="result-footer">
+      <div class="again-quiz">Test again</div>
+      <!--<div class="exit">Exit</div>-->
+      <div class=" menu"> <a href= physics.html><button style="color:#fff; background: #911ae2;border-radius: 10px;font-size: 16px;padding: 10px 20px;text-align: center;border-color: #911ae2;  " >menu</button></a></div>
+   </div>
+</div>
+
+<script>
+var questions =[
+{
+num : 1,
+question : "the ratio of displacement and distance is",
+answer : "equal to or less than one",
+options : [
+"always less than one",
+"always equal to one",
+"always more than one",
+"equal to or less than one"
+]
+},
+
+{
+num : 2,
+question : "A ball is thrown vertically upwards in air.If the air resistance cannot be neglected then the acceleration of the ball at the highest point",
+answer : "g",
+options : [
+"g",
+"> g",
+"< g",
+"0"
+]
+},
+
+
+{
+num : 3,
+question : "A car is moving on a road when a rain is falling vertically downward.Rain will strike",
+answer : "front screen",
+options : [
+"front screen",
+"Hind screen",
+"Both screen",
+"only on roof"
+]
+},
+
+
+{
+num : 4,
+question : "A car travel along a straight road with speed v1 and return back with speed v2 ,then the average speed of the car is",
+answer : "2V1V2/(v1+v2)",
+options : [
+"(v1+v2)/2",
+"2V1V2/(v1+v2)",
+"v1v2/(v1+v2)",
+"v1v2"
+]
+},
+
+
+{
+num : 5,
+question : "The wrong statement is",
+answer : "A body can have constant velocity and varying speed",
+options : [
+"A body can have constant velocity and varying speed",
+"A body can have constant speed and varying velocity",
+"A body can have constant speed and constant velocity",
+"The direction of a velocity can change when its acceleration is constant"
+]
+},
+
+
+{
+num : 6,
+question : "Two balls of different masses are thrown vertically upwards with the same speed.they pass through the point of projection in their downward motion(neglect air resistance)",
+answer : "same speed",
+options : [
+"same speed",
+"Different speed",
+"Same momentum",
+"Greater mass will have greater velocity"
+]
+},
+
+
+{
+num : 7,
+question : "The graph between velocity and time is represented by y=mx+c where m is not =0,then the object is moving with",
+answer : "variable velocity",
+options : [
+"constant velocity",
+"constant speed",
+"constant kinetic energy",
+"variable velocity"
+]
+},
+
+
+{
+num : 8,
+question : "A body is thrown vertically upwards and the air resistance is taken into account.The time accent is t1 and a time of descent is t2 , then the correct statement is ",
+answer : "t1 < t2",
+options : [
+"t1 = t2",
+"t1 < t2",
+"t1 > t2",
+"t1 >= t2"
+]
+},
+
+
+{
+num : 9,
+question : "the quantity that can be zero if a body remain un uniform motion for sometime is",
+answer : "Displacement",
+options : [
+"Distance",
+"Displacement",
+"speed",
+"None"
+]
+},
+
+
+{
+num : 10,
+question : "A passenger sitting in a railway carriage throws a ball vertically upwards.The ball would fall infront of him if train is moving with",
+answer : "Retardation",
+options : [
+"Acceleration",
+"Retardation",
+"Uniform velocity",
+"All of the above"
+]
+},
+
+
+{
+num : 11,
+question : "The distance travelled by a body falling freely in first,second and third seconds are in the ratio of",
+answer : "1:3:5",
+options : [
+"1:2:3",
+"1:3:5",
+"1:4:9",
+"2:5:7"
+]
+},
+
+
+{
+num : 12,
+question : "The initial velocity of a particle is 10m/s and the retardation is 2m/s^2.The distance moved by a particle in third second is",
+answer : "5m",
+options : [
+"1m",
+"2m",
+"5m",
+"6m"
+]
+},
+
+
+{
+num : 13,
+question : "A sand bag is released from the balloon which is ascending with the steady velocity of 8m/s.If the bag hits the ground 15 sec later then the height of balloon from ground is",
+answer : "1005m",
+options : [
+"1005m",
+"1245m",
+"2130m",
+"1545m"
+]
+},
+
+
+{
+num : 14,
+question : "A body is released from top of the tower.Another body is released from the same height exactly one second later.Then the seperation between two bodies two second after the release  of second body is",
+answer : "25m",
+options : [
+"5m",
+"10m",
+"20m",
+"25m"
+]
+},
+
+
+{
+num : 15,
+question : "In a motion with constant acceleration the velocity is reduced to zero in 5 seconds after covering a distance of 100m.The distance covered by the particle in the next 5 seconds will be",
+answer : "100m",
+options : [
+"0m",
+"250m",
+"100m",
+"500m"
+]
+},
+
+
+{
+num : 16,
+question : "A stone is dropped from a height of 45m.The distance traveled by it during last second of motion is",
+answer : "25m",
+options : [
+"5m",
+"10m",
+"25m",
+"35m"
+]
+},
+
+
+{
+num : 17,
+question : "A stone is dropped and the total distance traveled in last second is equal to distance covered in first three seconds.The stone remain in for",
+answer : "5sec",
+options : [
+"4sec",
+"5sec",
+"6sec",
+"7sec"
+]
+},
+
+
+{
+num : 18,
+question : "A car travel half of distance with constant velocity of 30km/hr and another half with constant velocity of 40km/hr.the average velocity of car in km/hr is",
+answer : "34.3",
+options : [
+"5.477",
+"34.3",
+"35",
+"0"
+]
+},
+
+
+{
+num : 19,
+question : "A stone is dropped from top of tower.If it cover 25m in last second of its motion,then the height of tower is",
+answer : "45m",
+options : [
+"45m",
+"50m",
+"85m",
+"72m"
+]
+},
+
+
+{
+num : 20,
+question : "A car is stopped at a distance 'x' when its momentum is 'p'.The stopping distance for car if momentum is 2p is" ,
+answer : "4x",
+options : [
+"x",
+"2x",
+"4x",
+"8x"
+]
+},
+
+{
+num : 21,
+question : "A body projected vertically upward crosses a point after 1 second and 7 seconds ,then the velocity of projection is",
+answer : "40m/s",
+options : [
+"20m/s",
+"30m/s",
+"40m/s",
+"50m/s"
+]
+},
+
+{
+num : 22,
+question : "Speed of a body is",
+answer : "positive",
+options : [
+"positive",
+"negative",
+"both",
+"none"
+]
+},
+
+{
+num : 23,
+question : "Slope of displacement-time graph gives",
+answer : "velocity",
+options : [
+"distance",
+"speed",
+"velocity",
+"acceleration"
+]
+},
+
+{
+num : 24,
+question : "Area of acceleration-time graph gives",
+answer : "change in velocity",
+options : [
+"change in dispalcement",
+"change in velocity",
+"change in acceleration",
+"none"
+]
+},
+
+{
+num : 25,
+question : "velocity and acceleration of a body may be",
+answer : "All of these",
+options : [
+"positive",
+"negative",
+"zero",
+"All of these"
+]
+},
+
+
+
+
+
+
+];
+</script>
+  
+<script>
+const start_btn = document.querySelector(".start_quiz");
+const quiz_box = document.querySelector(".quiz-box");
+const que_text = quiz_box.querySelector(".que_text");
+const options_box = quiz_box.querySelector(".options");
+const next_btn = document.querySelector(".next-btn");
+const total_q = document.querySelector(".quiz-footer .total_que");
+const count_que = document.querySelector(".quiz-footer .count_que");
+const result_box = document.querySelector(".result-box");
+
+const total_que_r = document.querySelector(".total-que span");
+const right_ans_r = document.querySelector(".right-ans span");
+const wrong_ans_r = document.querySelector(".wrong-ans span");
+const percentage = document.querySelector(".percentage span");
+
+const again_quiz = document.querySelector(".result-footer .again-quiz");
+//const exit = document.querySelector(".result-footer .exit");
+
+const mark_wrong = '<i class="fa fa-times"></i>';
+const mark_check = '<i class="fa fa-check"></i>';
+
+
+start_btn.onclick =()=>{
+    quiz_box.classList.remove("inactive");
+    start_btn.classList.add("inactive");
+}
+
+total_q.innerText = questions.length;
+total_que_r.innerText = questions.length;
+
+var que_index = 0;
+var right_answers = 0;
+var wrong_answers = 0;
+count_que.innerText = que_index+1;
+ShowQuestion(que_index);
+
+function ShowQuestion(q_index){
+    que_text.innerText = questions[q_index].num+". "+ questions[q_index].question;
+var option_statement = "";
+for(var i=0; i<questions[q_index].options.length; i++){
+    option_statement += `<div class="option">${questions[q_index].options[i]}</div>`;
+}
+
+options_box.innerHTML = option_statement;
+
+var AllOptions = options_box.querySelectorAll(".option");
+
+    for(var j=0; j<AllOptions.length; j++){
+        AllOptions[j].setAttribute("onclick","UserAnswer(this)");
+    }
+    next_btn.classList.add("inactive");
+}
+
+next_btn.onclick=()=>{
+    que_index++;
+    
+    if(questions.length>que_index){
+        count_que.innerText = que_index+1;
+        ShowQuestion(que_index);
+    }else{
+        console.log("Questions Complete");
+        quiz_box.classList.add("inactive");
+        result_box.classList.remove("inactive");
+        right_ans_r.innerText = right_answers;
+        wrong_ans_r.innerText = wrong_answers;
+        percentage.innerText = ((right_answers*100)/questions.length).toFixed(2)+"%";
+
+        
+    }
+
+    if(questions.length-1==que_index){
+        next_btn.innerText = "Finish";
+    }
+}
+
+function UserAnswer(answer){
+    let userAns = answer.innerText;
+    let correctAns = questions[que_index].answer;
+    var AllOptions2 = options_box.querySelectorAll(".option");
+
+    next_btn.classList.remove("inactive");
+    if(userAns == correctAns){
+        console.log("%c Right Answer","color:green");
+        answer.classList.add("correct");
+        answer.insertAdjacentHTML("beforeend",mark_check);
+        right_answers++;
+    }else{
+
+        console.log("%c Wrong Answer","color:red");
+        answer.classList.add("incorrect");
+        answer.insertAdjacentHTML("beforeend",mark_wrong);
+        wrong_answers++;
+
+        for(var i=0; i<AllOptions2.length; i++){
+            if(AllOptions2[i].innerText==correctAns){
+                AllOptions2[i].classList.add("correct");
+                AllOptions2[i].insertAdjacentHTML("beforeend",mark_check);
+            }
+        }
+    }
+
+    for(var j=0; j<AllOptions2.length; j++){
+        AllOptions2[j].classList.add("disabled");
+    }
+
+}
+
+again_quiz.onclick=()=>{
+    quiz_box.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+    reset();
+
+}
+
+/*exit.onclick=()=>{
+    start_btn.classList.remove("inactive");
+    result_box.classList.add("inactive");
+
+   reset();
+}*/
+
+function reset(){
+    que_index = 0;
+    right_answers = 0;
+    wrong_answers = 0;
+    next_btn.innerText = "Next Question";
+   count_que.innerText = que_index+1;
+   ShowQuestion(que_index);
+}
+</script>
+</body>
+</html>
+
